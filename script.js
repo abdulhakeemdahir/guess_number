@@ -1,20 +1,22 @@
 "use strict";
-
+//initial state of game
 let secretNumber = Math.trunc(Math.random() * 20) + 1;
-let message = document.querySelector(".message");
 let score = 20;
 let highScore = 0;
-// guessValue = 23;
-console.log(score);
 
-// Event passed in only runs when the button is clicked
+//display message function
+function displayMessage(message) {
+  document.querySelector(".message").textContent = message;
+}
+
+// when player checks guess
 document.querySelector(".check").addEventListener("click", function () {
   let guessValue = Number(document.querySelector(".guess").value);
   //   console.log(typeof guessValue);
   if (!guessValue) {
-    message.textContent = "No number!";
+    displayMessage("No Number");
   }
-  // When player wins
+  // when guess is correct
   else if (guessValue === secretNumber) {
     message.textContent = "🎉 Correct Number";
     document.querySelector(".number").textContent = secretNumber;
@@ -24,29 +26,25 @@ document.querySelector(".check").addEventListener("click", function () {
       highScore = score;
       document.querySelector(".highscore").textContent = highScore;
     }
-  } else if (guessValue > secretNumber) {
+    //when guess is wrong
+  } else if (guessValue !== secretNumber) {
     if (score > 1) {
-      message.textContent = "Number is too high!";
+      displayMessage(
+        guessValue > secretNumber ? "Number is too high!" : "Number is too low"
+      );
       score--;
       document.querySelector(".score").textContent = score;
     } else {
-      message.textContent = "You lost the game";
-    }
-  } else if (guessValue < secretNumber) {
-    if (score > 1) {
-      message.textContent = "Number is too low!";
-      score--;
-      document.querySelector(".score").textContent = score;
-    } else {
-      message.textContent = "You lost the game";
+      displayMessage("You lost the game");
+      document.querySelector(".score").textContent = 0;
     }
   }
 });
-
+// when player resets game
 document.querySelector(".again").addEventListener("click", function () {
   score = 20;
   secretNumber = Math.trunc(Math.random() * 20) + 1;
-  message.textContent = "Start Guessing...";
+  displayMessage("Start Guessing...");
   document.querySelector(".score").textContent = score;
   document.querySelector(".number").textContent = "?";
   document.querySelector(".guess").value = "";
