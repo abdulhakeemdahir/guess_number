@@ -18,9 +18,12 @@ document.querySelector(".check").addEventListener("click", function () {
   else if (guessValue === secretNumber) {
     message.textContent = "🎉 Correct Number";
     document.querySelector(".number").textContent = secretNumber;
-
     document.querySelector("body").style.backgroundColor = "#60b347";
     document.querySelector(".number").style.width = "30rem";
+    if (score > highScore) {
+      highScore = score;
+      document.querySelector(".highscore").textContent = highScore;
+    }
   } else if (guessValue > secretNumber) {
     if (score > 1) {
       message.textContent = "Number is too high!";
